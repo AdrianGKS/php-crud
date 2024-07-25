@@ -1,10 +1,10 @@
 <?php
 class Database
 {
-    private string $host = 'localhost';
-    private string $database_name = 'cadastro';
-    private string $username = 'postgres';
-    private string $password = 'admin';
+    private string $host = 'seuHost';
+    private string $database_name = 'seuBanco';
+    private string $username = 'seuUsuario';
+    private string $password = 'seuAdmin';
     public ?PDO $conexao;
 
     public function __construct()
