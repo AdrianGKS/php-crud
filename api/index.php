@@ -19,6 +19,7 @@ switch ($action) {
             echo json_encode(['error' => "Erro ao listar registros: " . $e->getMessage()]);
         }
         break;
+
     case 'getUser':
         try {
             $id = $_GET['id'] ?? null;
@@ -60,12 +61,12 @@ switch ($action) {
                 $_POST['telefone']
             );
 
-            if ($_FILES['foto']['error'] == UPLOAD_ERR_OK) {
+            /*if ($_FILES['foto']['error'] == UPLOAD_ERR_OK) {
                 $pessoa->setFoto(uniqid().$_FILES['foto']['name']);
                 move_uploaded_file($_FILES['foto']['tmp_name'], $pessoa->getFotoDiretorio());
             } else {
                 throw new Exception("Erro ao salvar foto.");
-            }
+            }*/
 
             $repositorio->salvar($pessoa);
             echo json_encode(['message' => "Registro salvo com sucesso"]);
@@ -75,7 +76,6 @@ switch ($action) {
         break;
 
     case 'update':
-
         try {
             $endereco = new Endereco(
                 null,
@@ -93,18 +93,17 @@ switch ($action) {
                 $_POST['cpf'],
                 $_POST['sexo'],
                 $endereco,
-                $_POST['telefone']
+                $_POST['telefone'],
             );
 
-            if ($_FILES['foto']['error'] == UPLOAD_ERR_OK) {
-                $pessoa->setFoto(uniqid().$_FILES['foto']['name']);
+            /*if ($_FILES['foto']['error'] == UPLOAD_ERR_OK) {
+                $pessoa->setFoto(uniqid().'_'.$_FILES['foto']['name']);
                 if (move_uploaded_file($_FILES['foto']['tmp_name'], $pessoa->getFotoDiretorio())) {
                     echo "Arquivo enviado com sucesso!";
                 } else {
                     echo "Erro ao mover o arquivo.";
                 }
-
-            }
+            }*/
 
             $repositorio->atualizar($pessoa);
             echo json_encode(['message' => "Registro atualizado com sucesso"]);
@@ -126,6 +125,14 @@ switch ($action) {
             echo json_encode(['message' => "Registro deletado com sucesso"]);
         } catch (Exception $e) {
             echo json_encode(['error' => "Erro ao deletar registro: " . $e->getMessage()]);
+        }
+        break;
+
+    case 'generatePdf':
+        try {
+            require '../generatePDF.php';
+        } catch (Exception $e) {
+            echo json_encode(['error' => "Erro ao gerar PDF: " . $e->getMessage()]);
         }
         break;
 

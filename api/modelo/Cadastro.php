@@ -9,11 +9,11 @@ class Cadastro
     private string $sexo;
     private Endereco $endereco;
     private string $telefone;
-    private string $foto;
+//    private string $foto;
 
 
     public function __construct(?int $id, string $nome, string $cpf, string $sexo, Endereco $endereco,
-                                string $telefone, string $foto = 'foto-padrao.png')
+                                string $telefone)
     {
         $this->id = $id;
         $this->nome = $nome;
@@ -21,7 +21,7 @@ class Cadastro
         $this->sexo = $sexo;
         $this->endereco = $endereco;
         $this->telefone = $telefone;
-        $this->foto = $foto;
+//        $this->foto = $foto;
     }
 
     public function getId(): ?int
@@ -54,19 +54,19 @@ class Cadastro
         return $this->telefone;
     }
 
-    public function getFoto(): string
-    {
-        return $this->foto;
-    }
-
-    public function setFoto(string $foto): void
-    {
-        $this->foto = $foto;
-    }
-
-    public function getFotoDiretorio(): string
-    {
-        return "/api/uploads/".$this->foto;
-    }
+//    public function getFoto(): string
+//    {
+//        return $this->foto;
+//    }
+//
+//    public function setFoto(string $foto): void
+//    {
+//        $this->foto = $foto;
+//    }
+//
+//    public function getFotoDiretorio(): string
+//    {
+//        return __DIR__ . "/uploads/".$this->foto;
+//    }
 
 }

@@ -3,49 +3,40 @@
 
 class CadastroRepositorio
 {
-    private $db;
+    private ?PDO $db;
 
     public function __construct(Database $db)
     {
         $this->db = $db->getConexao();
     }
 
-    private function formarObjeto($dados)
+    public function buscarTodos()
     {
-        $endereco = new Endereco(
-                $dados['id'],
-                $dados['pessoa_id'],
-                $dados['rua'],
-                $dados['numero'],
-                $dados['bairro'],
-                $dados['cidade'],
-                $dados['cep']
-        );
-
-        return new Cadastro(
-            $dados['id'],
-            $dados['nome'],
-            $dados['cpf'],
-            $dados['sexo'],
-            $endereco,
-            $dados['telefone'],
-            $dados['foto']
-        );
-    }
-
-    public function buscarTodos(): array
-    {
-        $sql = "SELECT p.id, p.nome, p.cpf, p.sexo, p.telefone, p.foto,
+        $sql = "SELECT p.id, p.nome, p.cpf, p.sexo, p.telefone,
                 e.rua, e.numero, e.bairro, e.cep, e.cidade
                 FROM pessoas p
                 LEFT JOIN enderecos e ON p.id = e.pessoa_id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function buscarPorId(int $id) {
-        $sql = "SELECT p.id, p.nome, p.cpf, p.sexo, p.telefone, p.foto,
+    public function buscarTodosObj()
+    {
+        $sql = "SELECT p.id, p.nome, p.cpf, p.sexo, p.telefone,
+                e.rua, e.numero, e.bairro, e.cep, e.cidade
+                FROM pessoas p
+                LEFT JOIN enderecos e ON p.id = e.pessoa_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function buscarPorId(int $id)
+    {
+        $sql = "SELECT p.id, p.nome, p.cpf, p.sexo, p.telefone,
                 e.rua, e.numero, e.bairro, e.cep, e.cidade
                 FROM pessoas p
                 LEFT JOIN enderecos e ON p.id = e.pessoa_id
@@ -57,16 +48,16 @@ class CadastroRepositorio
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function salvar(Cadastro $pessoa)
+    public function salvar(Cadastro $pessoa): void
     {
             // Inserir na tabela pessoas
-            $sql = "INSERT INTO pessoas (nome, cpf, sexo, telefone, foto) VALUES (?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO pessoas (nome, cpf, sexo, telefone) VALUES (?, ?, ?, ?)";
             $statement = $this->db->prepare($sql);
             $statement->bindValue(1, $pessoa->getNome());
             $statement->bindValue(2, $pessoa->getCpf());
             $statement->bindValue(3, $pessoa->getSexo());
             $statement->bindValue(4, $pessoa->getTelefone());
-            $statement->bindValue(5, $pessoa->getFoto());
+//            $statement->bindValue(5, $pessoa->getFoto());
             $statement->execute();
 
             $pessoaId = $this->db->lastInsertId();
@@ -82,7 +73,7 @@ class CadastroRepositorio
             $statement->execute();
 
     }
-    public function atualizar(Cadastro $pessoa)
+    public function atualizar(Cadastro $pessoa): void
     {
             $sql = "UPDATE pessoas SET nome = ?, cpf = ?, sexo = ?, telefone = ? WHERE id = ?";
             $statement = $this->db->prepare($sql);
@@ -94,9 +85,9 @@ class CadastroRepositorio
             $statement->execute();
 
             // Atualizar foto se necessário
-            if ($pessoa->getFoto() !== 'foto-padrao.png') {
-                $this->atualizarFoto($pessoa);
-            }
+//            if ($pessoa->getFoto() !== 'foto-padrao.png') {
+//                $this->atualizarFoto($pessoa);
+//            }
 
             $sql = "UPDATE enderecos SET rua = ?, numero = ?, bairro = ?, cep = ?, cidade = ? WHERE pessoa_id = ?";
             $statement = $this->db->prepare($sql);
@@ -109,16 +100,17 @@ class CadastroRepositorio
             $statement->execute();
     }
 
-    private function atualizarFoto(Cadastro $pessoa)
+   /* private function atualizarFoto(Cadastro $pessoa)
     {
         $sql = "UPDATE pessoas SET foto = ? WHERE id = ?";
         $statement = $this->db->prepare($sql);
         $statement->bindValue(1, $pessoa->getFoto());
         $statement->bindValue(2, $pessoa->getId());
         $statement->execute();
-    }
+    }*/
 
-    public function deletar(int $id) {
+    public function deletar(int $id): void
+    {
         $sql = "DELETE FROM pessoas WHERE id = ?";
         $statement = $this->db->prepare($sql);
         $statement->bindValue(1, $id);

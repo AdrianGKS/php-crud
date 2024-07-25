@@ -28,7 +28,8 @@ app.controller("userController", function($scope, $http, $location) {
     };
 
     $scope.displayData = function() {
-        $http.get("/api/index.php?action=list").then(function(response) {
+        $http.get("/api/index.php?action=list")
+            .then(function(response) {
             $scope.users = response.data;
         }, function(error) {
             alert("Erro ao carregar dados.");
@@ -57,6 +58,20 @@ app.controller("userController", function($scope, $http, $location) {
     $scope.resetForm = function() {
         $scope.user = {};
         $scope.btnName = "Cadastrar";
+    };
+
+    $scope.generatePdf = function() {
+        $http.get("/api/index.php?action=generatePdf", { responseType: 'arraybuffer' })
+            .then(function(response) {
+                var blob = new Blob([response.data], { type: 'application/pdf' });
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = "lista_pessoas.pdf";
+                link.click();
+            }, function(error) {
+                alert("Erro ao gerar PDF.");
+                console.error(error);
+            });
     };
 
     $scope.displayData();
@@ -89,8 +104,10 @@ app.controller("editController", function($scope, $http, $location) {
                 formData.append(key, $scope.user[key]);
                 console.log($scope.user[key])
             }
+            if ($scope.file) {
+                formData.append('foto', $scope.file);
+            }
 
-            console.log($scope.user)
             $http.post("/api/index.php?action=update", formData, {
                 transformRequest: angular.identity,
                 headers: { 'Content-Type': undefined }

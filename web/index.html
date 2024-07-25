@@ -61,14 +61,16 @@
       <input type="text" id="cidade" name="cidade" ng-model="user.cidade" class="form-control" placeholder="Cidade" />
     </div>
 
-    <div class="form-group">
-      <label for="foto">Foto</label>
-      <input type="file" id="foto" name="foto" file-model="user.foto" class="form-control" />
-    </div>
+<!--    <div class="form-group">-->
+<!--      <label for="foto">Foto</label>-->
+<!--      <input type="file" id="foto" name="foto" file-model="user.foto" class="form-control" />-->
+<!--    </div>-->
 
       <input type="hidden" ng-model="user.id" />
 
     <button type="submit" class="btn btn-info">{{ btnName }}</button>
+    <button class="btn btn-primary" ng-click="generatePdf()">Gerar Relatório</button>
+
   </form>
 
   <br><br>
@@ -81,7 +83,7 @@
       <th>Sexo</th>
       <th>Telefone</th>
       <th>Endereço</th>
-      <th>Foto</th>
+<!--      <th>Foto</th>-->
       <th>Atualizar</th>
       <th>Excluir</th>
     </tr>
@@ -93,7 +95,7 @@
       <td>{{ user.sexo }}</td>
       <td>{{ user.telefone }}</td>
       <td>{{ user.rua }}, {{ user.numero }}, {{ user.bairro }}, {{ user.cep }}, {{ user.cidade }}</td>
-      <td><img ng-src="/api/uploads/{{ user.foto }}" width="50" height="50" /></td>
+<!--      <td><img ng-src="/api/uploads/{{ user.foto }}" width="50" height="50" /></td>-->
       <td><button ng-click="editUser(user)" class="btn btn-info btn-xs">Atualizar</button></td>
       <td><button ng-click="deleteUser(user.id)" class="btn btn-danger btn-xs">Deletar</button></td>
     </tr>
