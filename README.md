@@ -5,7 +5,7 @@
 Para fazer a instalação do ambiente de desenvolvimento em execução você deverá:
 ```
 Instalar o Git
-Instalar o NodeJS
+Instalar o PHP
 Baixar o projeto deste repositório ou cloná-lo em seu ambiente local
 Abrir o projeto na sua IDE
 Executar o comando de instalação "composer" no terminal na pasta base
