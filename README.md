@@ -29,8 +29,8 @@ CREATE TABLE enderecos (
     cidade VARCHAR(100)
 );
 Abrir o projeto na sua IDE
-Executar o comando de instalação "composer" no terminal na pasta base
-Setar as variáveis do banco de dados na classe 'Endereco'
+Executar o comando de instalação "composer install" no terminal na pasta base
+Setar as variáveis do banco de dados na classe 'Database'
 Executar o projeto no com o comando "php -S localhost:8000" (ou a porta que desejar)
 Abrir o localhost no navegador "localhost:8000/web/index.html"
 ```
