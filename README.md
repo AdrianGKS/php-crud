@@ -14,8 +14,7 @@ CREATE TABLE pessoas (
     nome VARCHAR(100) NOT NULL,
     cpf VARCHAR(11) NOT NULL UNIQUE,
     sexo CHAR(1) CHECK (sexo IN ('M', 'F', 'O')),
-    telefone VARCHAR(15),
-    foto VARCHAR(255)
+    telefone VARCHAR(15)
 );
 
 -- Criação da tabela enderecos
